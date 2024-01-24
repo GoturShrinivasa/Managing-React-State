@@ -1,38 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
-import { getProducts } from "./services/productService";
 import Spinner from "./Spinner";
+import useFetch from "./useFetch";
 
 export default function App() {
   const [size, setSize] = useState("");
-  const [products, setProducts] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setloading] = useState(true);
 
-  //calling apis using promise
-  // useEffect(() => {
-  //   getProducts("shoes")
-  //     .then((response) => setProducts(response))
-  //     .catch((e) => setError(e))
-  //     .finally(() => setloading(false));
-  // }, []);
-
-  //calling apis using async and await
-  useEffect(() => {
-    async function init() {
-      try {
-        const response = await getProducts("shoes");
-        setProducts(response);
-      } catch (e) {
-        setError(e);
-      } finally {
-        setloading(false);
-      }
-    }
-    init();
-  }, []);
+  const {
+    data: products,
+    error,
+    loading,
+  } = useFetch("products?category=shoes");
 
   function renderProduct(p) {
     return (
