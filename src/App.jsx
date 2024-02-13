@@ -44,6 +44,11 @@ export default function App() {
       return items.map((i) => (i.sku === sku ? { ...i, quantity } : i));
     });
   }
+
+  //passing functions down instead of raw setter protects the state.
+  function emptyCart() {
+    return setCart([]);
+  }
   return (
     <>
       <div className="content">
@@ -60,7 +65,10 @@ export default function App() {
               path="/cart"
               element={<Cart cart={cart} updateQuantity={updateQuantity} />}
             />
-            <Route path="/checkout" element={<Checkout cart={cart} />} />
+            <Route
+              path="/checkout"
+              element={<Checkout cart={cart} emptyCart={emptyCart} />}
+            />
           </Routes>
         </main>
       </div>
